@@ -28,7 +28,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 typedef struct{
-  uint16_t  CustomLs_ServicesHdle;                    /**< LS_ServiceL handle */
+  uint16_t  CustomLs_DatasHdle;                    /**< LS_DataL handle */
   uint16_t  CustomDl_CharHdle;                  /**< Device_Locking_Char handle */
   uint16_t  CustomBs_CharHdle;                  /**< Battery_Status_Char handle */
 /* USER CODE BEGIN Context */
@@ -105,7 +105,7 @@ do {\
     uuid_struct[12] = uuid_12; uuid_struct[13] = uuid_13; uuid_struct[14] = uuid_14; uuid_struct[15] = uuid_15; \
 }while(0)
 
-#define COPY_LS_SERVICEL_UUID(uuid_struct)          COPY_UUID_128(uuid_struct,0x00,0x00,0x00,0x00,0xcc,0x7a,0x48,0x2a,0x98,0x4a,0x7f,0x2e,0xd5,0xb3,0xe5,0x8f)
+#define COPY_LS_DATAL_UUID(uuid_struct)          COPY_UUID_128(uuid_struct,0x00,0x00,0x00,0x00,0xcc,0x7a,0x48,0x2a,0x98,0x4a,0x7f,0x2e,0xd5,0xb3,0xe5,0x8f)
 #define COPY_DEVICE_LOCKING_CHAR_UUID(uuid_struct)    COPY_UUID_128(uuid_struct,0x00,0x00,0x00,0x00,0x8e,0x22,0x45,0x41,0x9d,0x4c,0x21,0xed,0xae,0x82,0xed,0x19)
 #define COPY_BATTERY_STATUS_CHAR_UUID(uuid_struct)    COPY_UUID_128(uuid_struct,0x00,0x00,0x00,0x00,0x8e,0x22,0x45,0x41,0x9d,0x4c,0x21,0xed,0xae,0x82,0xed,0x19)
 
@@ -296,10 +296,10 @@ void SVCCTL_InitCustomSvc(void)
   SVCCTL_RegisterSvcHandler(Custom_STM_Event_Handler);
 
   /**
-   *          LS_ServiceL
+   *          LS_DataL
    *
    * Max_Attribute_Records = 1 + 2*2 + 1*no_of_char_with_notify_or_indicate_property + 1*no_of_char_with_broadcast_property
-   * service_max_attribute_record = 1 for LS_ServiceL +
+   * service_max_attribute_record = 1 for LS_DataL +
    *                                2 for Device_Locking_Char +
    *                                2 for Battery_Status_Char +
    *                              = 5
@@ -314,26 +314,26 @@ void SVCCTL_InitCustomSvc(void)
 
   /* USER CODE END SVCCTL_InitService */
 
-  COPY_LS_SERVICEL_UUID(uuid.Char_UUID_128);
+  COPY_LS_DATAL_UUID(uuid.Char_UUID_128);
   ret = aci_gatt_add_service(UUID_TYPE_128,
                              (Service_UUID_t *) &uuid,
                              PRIMARY_SERVICE,
                              max_attr_record,
-                             &(CustomContext.CustomLs_ServicesHdle));
+                             &(CustomContext.CustomLs_DatasHdle));
   if (ret != BLE_STATUS_SUCCESS)
   {
-    APP_DBG_MSG("  Fail   : aci_gatt_add_service command: LS_ServiceS, error code: 0x%x \n\r", ret);
+    APP_DBG_MSG("  Fail   : aci_gatt_add_service command: LS_DataS, error code: 0x%x \n\r", ret);
   }
   else
   {
-    APP_DBG_MSG("  Success: aci_gatt_add_service command: LS_ServiceS \n\r");
+    APP_DBG_MSG("  Success: aci_gatt_add_service command: LS_DataS \n\r");
   }
 
   /**
    *  Device_Locking_Char
    */
   COPY_DEVICE_LOCKING_CHAR_UUID(uuid.Char_UUID_128);
-  ret = aci_gatt_add_char(CustomContext.CustomLs_ServicesHdle,
+  ret = aci_gatt_add_char(CustomContext.CustomLs_DatasHdle,
                           UUID_TYPE_128, &uuid,
                           SizeDl_Char,
                           CHAR_PROP_READ | CHAR_PROP_WRITE_WITHOUT_RESP,
@@ -359,7 +359,7 @@ void SVCCTL_InitCustomSvc(void)
    *  Battery_Status_Char
    */
   COPY_BATTERY_STATUS_CHAR_UUID(uuid.Char_UUID_128);
-  ret = aci_gatt_add_char(CustomContext.CustomLs_ServicesHdle,
+  ret = aci_gatt_add_char(CustomContext.CustomLs_DatasHdle,
                           UUID_TYPE_128, &uuid,
                           SizeBs_Char,
                           CHAR_PROP_READ | CHAR_PROP_WRITE_WITHOUT_RESP,
@@ -406,7 +406,7 @@ tBleStatus Custom_STM_App_Update_Char(Custom_STM_Char_Opcode_t CharOpcode, uint8
   {
 
     case CUSTOM_STM_DL_CHAR:
-      ret = aci_gatt_update_char_value(CustomContext.CustomLs_ServicesHdle,
+      ret = aci_gatt_update_char_value(CustomContext.CustomLs_DatasHdle,
                                        CustomContext.CustomDl_CharHdle,
                                        0, /* charValOffset */
                                        SizeDl_Char, /* charValueLen */
@@ -425,7 +425,7 @@ tBleStatus Custom_STM_App_Update_Char(Custom_STM_Char_Opcode_t CharOpcode, uint8
       break;
 
     case CUSTOM_STM_BS_CHAR:
-      ret = aci_gatt_update_char_value(CustomContext.CustomLs_ServicesHdle,
+      ret = aci_gatt_update_char_value(CustomContext.CustomLs_DatasHdle,
                                        CustomContext.CustomBs_CharHdle,
                                        0, /* charValOffset */
                                        SizeBs_Char, /* charValueLen */
@@ -472,7 +472,7 @@ tBleStatus Custom_STM_App_Update_Char_Variable_Length(Custom_STM_Char_Opcode_t C
   {
 
     case CUSTOM_STM_DL_CHAR:
-      ret = aci_gatt_update_char_value(CustomContext.CustomLs_ServicesHdle,
+      ret = aci_gatt_update_char_value(CustomContext.CustomLs_DatasHdle,
                                        CustomContext.CustomDl_CharHdle,
                                        0, /* charValOffset */
                                        size, /* charValueLen */
@@ -491,7 +491,7 @@ tBleStatus Custom_STM_App_Update_Char_Variable_Length(Custom_STM_Char_Opcode_t C
       break;
 
     case CUSTOM_STM_BS_CHAR:
-      ret = aci_gatt_update_char_value(CustomContext.CustomLs_ServicesHdle,
+      ret = aci_gatt_update_char_value(CustomContext.CustomLs_DatasHdle,
                                        CustomContext.CustomBs_CharHdle,
                                        0, /* charValOffset */
                                        size, /* charValueLen */
@@ -541,7 +541,7 @@ tBleStatus Custom_STM_App_Update_Char_Ext(uint16_t Connection_Handle, Custom_STM
       /* USER CODE BEGIN Updated_Length_Service_1_Char_1*/
 
       /* USER CODE END Updated_Length_Service_1_Char_1*/
-	  Generic_STM_App_Update_Char_Ext(Connection_Handle, CustomContext.CustomLs_ServicesHdle, CustomContext.CustomDl_CharHdle, SizeDl_Char, pPayload);
+	  Generic_STM_App_Update_Char_Ext(Connection_Handle, CustomContext.CustomLs_DatasHdle, CustomContext.CustomDl_CharHdle, SizeDl_Char, pPayload);
 
       break;
 
@@ -549,7 +549,7 @@ tBleStatus Custom_STM_App_Update_Char_Ext(uint16_t Connection_Handle, Custom_STM
       /* USER CODE BEGIN Updated_Length_Service_1_Char_2*/
 
       /* USER CODE END Updated_Length_Service_1_Char_2*/
-	  Generic_STM_App_Update_Char_Ext(Connection_Handle, CustomContext.CustomLs_ServicesHdle, CustomContext.CustomBs_CharHdle, SizeBs_Char, pPayload);
+	  Generic_STM_App_Update_Char_Ext(Connection_Handle, CustomContext.CustomLs_DatasHdle, CustomContext.CustomBs_CharHdle, SizeBs_Char, pPayload);
 
       break;
 

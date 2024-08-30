@@ -35,7 +35,7 @@
 /* Private typedef -----------------------------------------------------------*/
 typedef struct
 {
-  /* LS_ServiceL */
+  /* LS_DataL */
   /* USER CODE BEGIN CUSTOM_APP_Context_t */
 
   /* USER CODE END CUSTOM_APP_Context_t */
@@ -76,7 +76,7 @@ uint16_t Connection_Handle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-/* LS_ServiceL */
+/* LS_DataL */
 
 /* USER CODE BEGIN PFP */
 
@@ -94,7 +94,7 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
 
     /* USER CODE END CUSTOM_STM_App_Notification_Custom_Evt_Opcode */
 
-    /* LS_ServiceL */
+    /* LS_DataL */
     case CUSTOM_STM_DL_CHAR_READ_EVT:
       /* USER CODE BEGIN CUSTOM_STM_DL_CHAR_READ_EVT */
 
@@ -192,7 +192,7 @@ void Custom_APP_Init(void)
  *
  *************************************************************/
 
-/* LS_ServiceL */
+/* LS_DataL */
 
 /* USER CODE BEGIN FD_LOCAL_FUNCTIONS*/
 
