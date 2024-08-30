@@ -37,6 +37,8 @@ typedef enum
   /* LS_DataL */
   CUSTOM_STM_DL_CHAR,
   CUSTOM_STM_BS_CHAR,
+  /* LS_OTAL */
+  CUSTOM_STM_OTADATA,
 } Custom_STM_Char_Opcode_t;
 
 typedef enum
@@ -47,6 +49,9 @@ typedef enum
   /* Battery_Status_Char */
   CUSTOM_STM_BS_CHAR_READ_EVT,
   CUSTOM_STM_BS_CHAR_WRITE_NO_RESP_EVT,
+  /* OTAData */
+  CUSTOM_STM_OTADATA_READ_EVT,
+  CUSTOM_STM_OTADATA_WRITE_NO_RESP_EVT,
   CUSTOM_STM_NOTIFICATION_COMPLETE_EVT,
 
   CUSTOM_STM_BOOT_REQUEST_EVT
@@ -74,6 +79,7 @@ typedef struct
 /* Exported constants --------------------------------------------------------*/
 extern uint16_t SizeDl_Char;
 extern uint16_t SizeBs_Char;
+extern uint16_t SizeOtadata;
 
 /* USER CODE BEGIN EC */
 

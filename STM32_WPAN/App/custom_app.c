@@ -36,6 +36,7 @@
 typedef struct
 {
   /* LS_DataL */
+  /* LS_OTAL */
   /* USER CODE BEGIN CUSTOM_APP_Context_t */
 
   /* USER CODE END CUSTOM_APP_Context_t */
@@ -77,6 +78,7 @@ uint16_t Connection_Handle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* LS_DataL */
+/* LS_OTAL */
 
 /* USER CODE BEGIN PFP */
 
@@ -117,6 +119,19 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       /* USER CODE BEGIN CUSTOM_STM_BS_CHAR_WRITE_NO_RESP_EVT */
 
       /* USER CODE END CUSTOM_STM_BS_CHAR_WRITE_NO_RESP_EVT */
+      break;
+
+    /* LS_OTAL */
+    case CUSTOM_STM_OTADATA_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_OTADATA_READ_EVT */
+
+      /* USER CODE END CUSTOM_STM_OTADATA_READ_EVT */
+      break;
+
+    case CUSTOM_STM_OTADATA_WRITE_NO_RESP_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_OTADATA_WRITE_NO_RESP_EVT */
+
+      /* USER CODE END CUSTOM_STM_OTADATA_WRITE_NO_RESP_EVT */
       break;
 
     case CUSTOM_STM_NOTIFICATION_COMPLETE_EVT:
@@ -193,6 +208,7 @@ void Custom_APP_Init(void)
  *************************************************************/
 
 /* LS_DataL */
+/* LS_OTAL */
 
 /* USER CODE BEGIN FD_LOCAL_FUNCTIONS*/
 
