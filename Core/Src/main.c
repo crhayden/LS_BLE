@@ -85,6 +85,8 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
+  /* Config code for STM32_WPAN (HSE Tuning must be done before system clock configuration) */
+  MX_APPE_Config();
 
   /* USER CODE BEGIN Init */
 
@@ -113,11 +115,15 @@ int main(void)
 
   /* USER CODE END 2 */
 
+  /* Init code for STM32_WPAN */
+  MX_APPE_Init();
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
+    MX_APPE_Process();
 
     /* USER CODE BEGIN 3 */
   }
@@ -264,8 +270,8 @@ static void MX_RTC_Init(void)
   */
   hrtc.Instance = RTC;
   hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
-  hrtc.Init.AsynchPrediv = 127;
-  hrtc.Init.SynchPrediv = 255;
+  hrtc.Init.AsynchPrediv = CFG_RTC_ASYNCH_PRESCALER;
+  hrtc.Init.SynchPrediv = CFG_RTC_SYNCH_PRESCALER;
   hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
   hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
   hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
